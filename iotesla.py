@@ -4,7 +4,7 @@ from time import gmtime, strftime
 
 global myemail
 
-myemail = "my@email.com"
+myemail = "ben.skan@gmail.com"
 
 
 def tou_json(input_json):
@@ -61,7 +61,7 @@ def tou_json(input_json):
     else:
         print("Same Day")
         if (end_dt.minute == 30 and end_dt.hour == 23):
-            print ("Ends at 23:30")        
+            print ("Ends at 23:30")
             output_json = {
                 "OFF_PEAK": [
                     {
@@ -97,6 +97,38 @@ def tou_json(input_json):
                         "fromMinute": 30,
                         "toHour": start_dt.hour,
                         "toMinute": start_dt.minute
+                    }
+                ]
+            }
+        elif (end_dt.hour < 5):
+            print ("Ends before 5")
+            output_json = {
+                "OFF_PEAK": [
+                    {
+                        "toMinute": 30,
+                        "toDayOfWeek": 6,
+                        "toHour": 5,
+                        "fromHour": 0,
+                        "fromMinute": 0,
+                        "fromDayOfWeek": 0
+                    },
+                    {
+                        "toMinute": 0,
+                        "toDayOfWeek": 6,
+                        "toHour": 0,
+                        "fromHour": 23,
+                        "fromMinute": 30,
+                        "fromDayOfWeek": 0
+                    }
+                ],
+                "ON_PEAK": [
+                    {
+                        "fromDayOfWeek": 0,
+                        "toDayOfWeek": 6,
+                        "fromHour": 5,
+                        "fromMinute": 30,
+                        "toHour": 23,
+                        "toMinute": 30
                     }
                 ]
             }
@@ -147,7 +179,6 @@ def tou_json(input_json):
                     }
                 ]
             }
-    
 
     tarriffname = strftime("Go %Y%m%d %H%M%S", gmtime())
 
